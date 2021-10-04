@@ -21,25 +21,50 @@ const pAequorFactory = (nr, arr) => {
 // New object instance
 const newOrganism = pAequorFactory(2, mockUpStrand());
 
-// .mutate() method
-const mutate = (obj) => {
+// Implementing .mutate() method to our newOrganism object
+newOrganism["mutate"] = function () {
   const dnaBases = ["A", "T", "C", "G"];
-  const randomNr = Math.floor(Math.random() * obj["dna"].length);
-  return (obj["dna"][randomNr] =
-    dnaBases[Math.floor(Math.random() * dnaBases.length)]);
+  const exceptingSameElement = [...dnaBases];
+  const randomNr = Math.floor(Math.random() * this.dna.length);
+  if (this.dna[randomNr] === "A") {
+    exceptingSameElement.splice(0, 1);
+    return (this.dna[randomNr] =
+      exceptingSameElement[
+        Math.floor(Math.random() * exceptingSameElement.length)
+      ]);
+  } else if (this.dna[randomNr] === "T") {
+    exceptingSameElement.splice(1, 1);
+    return (this.dna[randomNr] =
+      exceptingSameElement[
+        Math.floor(Math.random() * exceptingSameElement.length)
+      ]);
+  } else if (this.dna[randomNr] === "C") {
+    exceptingSameElement.splice(2, 1);
+    return (this.dna[randomNr] =
+      exceptingSameElement[
+        Math.floor(Math.random() * exceptingSameElement.length)
+      ]);
+  } else {
+    return (this.dna[randomNr] =
+      exceptingSameElement[
+        Math.floor(Math.random() * exceptingSameElement.length)
+      ]);
+  }
 };
 
-// .compareDNA() method
-const compareDNA = (obj) => {
+// Implementing .compareDNA() method to our newOrganism object
+newOrganism["compareDNA"] = function () {
   const passedObj = pAequorFactory(4, mockUpStrand());
   const countCommonBases = [];
-  for (let i = 0; i < obj["dna"].length; i++) {
-    if (obj["dna"][i] === passedObj["dna"][i]) {
-      countCommonBases.push(obj["dna"][i]);
+  for (let i = 0; i < this.dna.length; i++) {
+    if (this.dna[i] === passedObj["dna"][i]) {
+      countCommonBases.push(this.dna[i]);
     }
   }
   const coincidencePercentage = Math.floor(
     (countCommonBases.length / passedObj["dna"].length) * 100
   );
-  return `Specimen #${obj["specimenNum"]} and Specimen #${passedObj["specimenNum"]} have #${coincidencePercentage}% in common.`;
+  return `Specimen #${this.specimenNum} and Specimen #${passedObj["specimenNum"]} have #${coincidencePercentage}% in common.`;
 };
+
+// Implementing .willLikelySurvive() method

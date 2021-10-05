@@ -51,7 +51,6 @@ newOrganism["mutate"] = function () {
       ]);
   }
 };
-
 // Implementing .compareDNA() method to our newOrganism object
 newOrganism["compareDNA"] = function () {
   const passedObj = pAequorFactory(4, mockUpStrand());
@@ -68,3 +67,32 @@ newOrganism["compareDNA"] = function () {
 };
 
 // Implementing .willLikelySurvive() method
+//  A likelier chance of survive if their DNA is made up of at least 60% of 'C' or 'G' bases
+newOrganism["willLikelySurvive"] = function () {
+  let baseC = 0;
+  let baseG = 0;
+  this.dna.forEach((element) => {
+    switch (element) {
+      case "C":
+        baseC += 1;
+        break;
+      case "G":
+        baseG += 1;
+        break;
+    }
+  });
+  if (baseC >= 9 || baseG >= 9) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// An array of 30 pAequor object instances
+const pAequorObjects = [];
+const creatPAequorObjInst = function () {
+  for (let i = 0; i < 30; i++) {
+    pAequorObjects.push(pAequorFactory(i + 1, mockUpStrand()));
+  }
+};
+creatPAequorObjInst();
